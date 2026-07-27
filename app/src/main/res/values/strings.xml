@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ClimaTec</string>
+    <string name="app_weather_title">Previsão do Tempo</string>
+    <string name="location_denied">Permissão de localização negada.</string>
+    <string name="fetching_location">Buscando localização&#8230;</string>
+    <string name="gps_unavailable">GPS indisponível.</string>
+    <string name="location_error">Erro ao obter localização.</string>
+    <string name="city_not_found">Cidade não encontrada.</string>
+    <string name="geocoder_error">Erro ao converter coordenadas.</string>
+    <string name="api_error">Erro na resposta da API.</string>
+    <string name="connection_error">Erro de conexão: %s</string>
+    <string name="default_temperature">-- ºC</string>
+    <string name="label_humidity">Umidade</string>
+    <string name="default_humidity">-- %</string>
+    <string name="label_wind">Vento</string>
+    <string name="default_wind_speed">-- km/h</string>
+    <string name="action_refresh_data">Atualizar Dados</string>
 </resources>

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Layout principal do Climatec.
+    Alterações em relação à versão anterior:
+      • Adicionado ProgressBar (id: progressBar) abaixo do Card, controlado
+        por MainActivity.setLoadingState() durante a busca de localização e clima.
+      • Corrigido textSize do tvWindSpeed de "20dp" para "20sp" (dp é unidade
+        de distância, não de texto — sp respeita o tamanho de fonte do sistema).
+      • Adicionado contentDescription nos TextViews de dados para acessibilidade.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,6 +17,21 @@
     android:background="#F3F4F6"
     tools:context=".MainActivity">
 
+    <!-- Título do aplicativo -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Previsão do Tempo — Open-Meteo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Card com os dados meteorológicos -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="0dp"
@@ -27,26 +51,31 @@
             android:orientation="vertical"
             android:padding="32dp">
 
+            <!-- Nome da cidade / estado de localização -->
             <TextView
                 android:id="@+id/tvCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Cidade atual"
                 android:text="Buscando local..."
                 android:textColor="#333333"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
+            <!-- Temperatura -->
             <TextView
                 android:id="@+id/tvTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:contentDescription="Temperatura atual"
                 android:text="--°C"
                 android:textColor="#1976D2"
-                android:textSize="34sp"
+                android:textSize="48sp"
                 android:textStyle="bold" />
 
+            <!-- Linha com Umidade e Vento -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +83,7 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Umidade -->
+                <!-- Coluna: Umidade -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -73,14 +102,15 @@
                         android:id="@+id/tvHumidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:contentDescription="Umidade relativa do ar"
                         android:text="-- %"
                         android:textColor="#333333"
                         android:textSize="20sp"
-                        android:layout_marginBottom="16dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Vento -->
+                <!-- Coluna: Vento -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -95,43 +125,49 @@
                         android:textColor="#757575"
                         android:textSize="14sp" />
 
+                    <!-- CORREÇÃO: textSize era "20dp" (errado) → "20sp" (correto) -->
                     <TextView
                         android:id="@+id/tvWindSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:contentDescription="Velocidade do vento"
                         android:text="-- km/h"
                         android:textColor="#333333"
-                        android:textSize="20dp"
-                        android:layout_marginBottom="40dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
+    <!--
+        ProgressBar exibida durante a busca de localização / chamada à API.
+        Controlada por MainActivity.setLoadingState(boolean).
+        Visibilidade inicial: GONE (oculta até o primeiro carregamento).
+    -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+    <!-- Botão de atualizar dados -->
     <Button
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="Atualizar Dados"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-        app:layout_constraintVertical_bias="0.23" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="Previsão do Tempo - Via Open-Meteo"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/materialCardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
